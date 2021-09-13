@@ -12,12 +12,12 @@ import (
 var calDavUrl string
 var cardDavUrl string
 
-var wellKnownCardDav = map[string]string {
+var wellKnownCardDav = map[string]string{
 	"fastmail": "https://carddav.fastmail.com/dav/addressbooks",
 	// Can add more services here, pull requests welcome
 }
 
-var wellKnownCalDav = map[string]string {
+var wellKnownCalDav = map[string]string{
 	"fastmail": "https://caldav.fastmail.com/dav/calendars",
 	// Can add more services here, pull requests welcome
 }
@@ -37,14 +37,14 @@ func main() {
 	flag.Parse()
 
 	wkCal, exists := wellKnownCalDav[calDavArg]
-	if (exists) {
+	if exists {
 		calDavUrl = wkCal
 	} else {
 		calDavUrl = calDavArg
 	}
 
 	wkCard, exists := wellKnownCardDav[cardDavArg]
-	if (exists) {
+	if exists {
 		cardDavUrl = wkCard
 	} else {
 		cardDavUrl = cardDavArg

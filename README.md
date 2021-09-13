@@ -7,15 +7,26 @@ Gnome's online account integration doesn't support standalone CalDAV and CardDAV
 
 I'm using it with self hosted Radicale but it can be used with Fastmail or any other DAV implementation.
 
-Shame on Gnome for not supporting open standards even when they have already done all the work and implemented it in another place. 
-
 ## How to use it ?
 
-* add your dav server url in serviceMap in `main.go` and point to it in the redirect func
-* `make build`
-* make a systemd service to run this permanently
-* add a new nextcloud account in Gnome Online Accounts, and set url as `localhost:8223`, and your dav server username and password in required fields.
+Install a Go development environment. Then:
 
+```bash
+git clone https://github.com/IceWreck/Gnome-DAV-Support-Shim.git
+cd Gnome-DAV-Support-Shim
+make build
+install.sh
+```
+
+Then add a new NextCloud account in Gnome Online Accounts. Set the URL to `http://localhost:8223`, and your dav server username and password in required fields.
+
+The install script sets up a systemd service that starts when you log in. It defaults to Fastmail. You can specify custom DAV URLs like so:
+
+```bash
+install.sh --cal https://dav.abifog.com/IceWreck --card https://dav.abifog.com/IceWreck
+```
+
+To uninstall, run `install.sh --uninstall`.
 
 ## An alternative method
 
