@@ -101,7 +101,13 @@ function install_service() {
     test -d "${SYSTEMD_UNIT_DIR}" || mkdir --parent "${SYSTEMD_UNIT_DIR}"
     test -d "${BIN_DIR}" || mkdir --parent "${BIN_DIR}"
 
-    cp "${SCRIPT_DIR}/out/gnome-dav-support" "${BIN_DIR}"
+    if [ -f "${SCRIPT_DIR}/out/gnome-dav-support" ]; then
+        cp "${SCRIPT_DIR}/out/gnome-dav-support" "${BIN_DIR}"
+    elif [ -f "${SCRIPT_DIR}/gnome-dav-support" ]; then
+        cp "${SCRIPT_DIR}/gnome-dav-support" "${BIN_DIR}"
+    else
+        panic "Unable to find gnome-dav-support executable. Try running \`make build\` first."
+    fi
 
     (cat <<EOF
 [Unit]
