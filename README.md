@@ -9,22 +9,27 @@ I'm using it with self hosted Radicale but it can be used with Fastmail or any o
 
 ## How to use it ?
 
-Install a Go development environment. Then:
-
 ```bash
-git clone https://github.com/IceWreck/Gnome-DAV-Support-Shim.git
-cd Gnome-DAV-Support-Shim
-make build
-install.sh
+# Assuming you're on an amd64 system (ARM is also supported):
+wget https://github.com/pcrockett/Gnome-DAV-Support-Shim/releases/download/v1.0/gnome-dav-support-amd64.zip
+unzip gnome-dav-support-amd64.zip
 ```
 
-Then add a new NextCloud account in Gnome Online Accounts. Set the URL to `http://localhost:8223`, and your dav server username and password in required fields.
-
-The install script sets up a systemd service that starts when you log in. It defaults to Fastmail. You can specify custom DAV URLs like so:
+Now simply run the install script, which sets up a systemd service that starts when you log in. If you are using Fastmail:
 
 ```bash
-install.sh --cal https://dav.abifog.com/IceWreck --card https://dav.abifog.com/IceWreck
+./install.sh
 ```
+
+... or if you're using a different Cal/CardDAV service, run something to this effect:
+
+```bash
+./install.sh --cal "${caldav-service-url}" --card "${carddav-service-url}"
+```
+
+_Note: There is no need for `sudo`._
+
+Then add a new NextCloud account in Gnome Online Accounts. Set the URL to `http://localhost:8223`, and your DAV server username and password in required fields.
 
 To uninstall, run `install.sh --uninstall`.
 
