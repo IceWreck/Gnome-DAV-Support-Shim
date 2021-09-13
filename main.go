@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 
@@ -8,11 +9,17 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-var serviceMap = map[string]string{
-	"radicale-caldav":  "https://dav.abifog.com/IceWreck",
-	"radicale-carddav": "https://dav.abifog.com/IceWreck",
-	"fastmail-caldav":  "https://caldav.fastmail.com/dav/calendars",
-	"fastmail-carddav": "https://carddav.fastmail.com/dav/addressbooks",
+var calDavUrl string
+var cardDavUrl string
+
+var wellKnownCardDav = map[string]string{
+	"fastmail": "https://carddav.fastmail.com/dav/addressbooks",
+	// Can add more services here, pull requests welcome
+}
+
+var wellKnownCalDav = map[string]string{
+	"fastmail": "https://caldav.fastmail.com/dav/calendars",
+	// Can add more services here, pull requests welcome
 }
 
 func init() {
@@ -20,6 +27,28 @@ func init() {
 }
 
 func main() {
+
+	var calDavArg string
+	var cardDavArg string
+
+	flag.StringVar(&calDavArg, "cal", "fastmail", "The CalDAV redirect URL")
+	flag.StringVar(&cardDavArg, "card", "fastmail", "The CardDAV redirect URL")
+
+	flag.Parse()
+
+	wkCal, exists := wellKnownCalDav[calDavArg]
+	if exists {
+		calDavUrl = wkCal
+	} else {
+		calDavUrl = calDavArg
+	}
+
+	wkCard, exists := wellKnownCardDav[cardDavArg]
+	if exists {
+		cardDavUrl = wkCard
+	} else {
+		cardDavUrl = cardDavArg
+	}
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -40,9 +69,9 @@ func redirect(w http.ResponseWriter, r *http.Request) {
 	davType := chi.URLParam(r, "davType")
 	switch davType {
 	case "caldav":
-		http.Redirect(w, r, serviceMap["radicale-caldav"], http.StatusTemporaryRedirect)
+		http.Redirect(w, r, calDavUrl, http.StatusTemporaryRedirect)
 	case "carddav":
-		http.Redirect(w, r, serviceMap["radicale-carddav"], http.StatusTemporaryRedirect)
+		http.Redirect(w, r, cardDavUrl, http.StatusTemporaryRedirect)
 	default:
 		w.Write([]byte("Not Implemented Yet"))
 	}
