@@ -11,7 +11,7 @@ I'm using it with self hosted Radicale but it can be used with Fastmail or any o
 
 ```bash
 # Assuming you're on an amd64 system (ARM is also supported):
-wget https://github.com/pcrockett/Gnome-DAV-Support-Shim/releases/download/v1.0/gnome-dav-support-amd64.zip
+wget https://github.com/IceWreck/Gnome-DAV-Support-Shim/releases/download/v0.1.0/gnome-dav-support-amd64.zip
 unzip gnome-dav-support-amd64.zip
 ```
 
@@ -38,4 +38,3 @@ To uninstall, run `install.sh --uninstall`.
 I've been doing this for years but got tired of it.
 
 Yes, you can install evolution mail client from your distro's repos, add your DAV server from there and then uninstall evolution and keep using your DAV servers from Gnome Contacts and Gnome Calendar. But if you want to modify or add those again, you gotta repeat the process.
-
